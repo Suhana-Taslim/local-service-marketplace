@@ -1,0 +1,934 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Dashboard | Local Service Marketplace</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f0e6;
+            color: #21152b;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            background: #21152b;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            background: #6c63ff;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        header a:hover {
+            background: #5148d8;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1150px;
+            margin: 35px auto;
+        }
+
+        /* ================= WELCOME ================= */
+
+        .welcome {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 30px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        }
+
+        .welcome h2 {
+            margin-bottom: 10px;
+            font-size: 26px;
+        }
+
+        .welcome p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* ================= SEARCH ================= */
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box input:focus {
+            border-color: #6c63ff;
+        }
+
+        /* ================= CATEGORIES ================= */
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .category-btn {
+            width: auto;
+            padding: 10px 16px;
+            background: white;
+            color: #21152b;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: #6c63ff;
+            color: white;
+            border-color: #6c63ff;
+        }
+
+        /* ================= SECTION TITLE ================= */
+
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        /* ================= SERVICES ================= */
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 22px;
+            margin-bottom: 50px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: 0.25s ease;
+            position: relative;
+        }
+
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        .service-icon {
+            width: 55px;
+            height: 55px;
+            background: #eeeaff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 18px;
+        }
+
+        .service-card h3 {
+            margin-bottom: 10px;
+            font-size: 19px;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.5;
+            min-height: 48px;
+            margin-bottom: 15px;
+        }
+
+        .service-price {
+            font-weight: bold;
+            color: #6c63ff;
+            margin-bottom: 15px;
+        }
+
+        .service-category {
+            display: inline-block;
+            background: #f0edff;
+            color: #5148d8;
+            padding: 5px 9px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .book-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 9px;
+            background: #6c63ff;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .book-btn:hover {
+            background: #5148d8;
+        }
+
+        /* ================= BOOKINGS ================= */
+
+        .booking-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 18px;
+            border-radius: 16px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .booking-card h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .booking-card p {
+            margin-bottom: 9px;
+            color: #555;
+        }
+
+        .status {
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            font-weight: bold;
+            color: #6c63ff !important;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            text-align: center;
+            color: #666;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+            grid-column: 1 / -1;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 15px 5%;
+            }
+
+            header h1 {
+                font-size: 18px;
+            }
+
+            header a {
+                padding: 8px 13px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 25px auto;
+            }
+
+            .welcome {
+                padding: 22px;
+            }
+
+            .welcome h2 {
+                font-size: 22px;
+            }
+
+            .section-title {
+                font-size: 21px;
+            }
+
+            .categories {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 5px;
+            }
+
+            .category-btn {
+                white-space: nowrap;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <h1>Local Service Marketplace</h1>
+
+    <a href="index.html">Home</a>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="container">
+
+    <!-- WELCOME -->
+
+    <div class="welcome">
+
+        <h2>Welcome, Customer! 👋</h2>
+
+        <p>
+            Find trusted local professionals, book services easily,
+            and track your service requests from one place.
+        </p>
+
+    </div>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-box">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Search for a service..."
+            oninput="filterServices()">
+
+    </div>
+
+
+    <!-- CATEGORIES -->
+
+    <div class="categories">
+
+        <button class="category-btn active"
+                onclick="filterCategory('All', this)">
+            All
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Electrician', this)">
+            🔌 Electrician
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Plumber', this)">
+            🚰 Plumber
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Carpenter', this)">
+            🪚 Carpenter
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('AC', this)">
+            ❄️ AC
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Appliance', this)">
+            🔧 Appliances
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Painter', this)">
+            🎨 Painter
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Pest', this)">
+            🐜 Pest Control
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Gardener', this)">
+            🌱 Gardener
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Electronics', this)">
+            📱 Electronics
+        </button>
+
+        <button class="category-btn"
+                onclick="filterCategory('Vehicle', this)">
+            🚗 Vehicle
+        </button>
+
+    </div>
+
+
+    <!-- SERVICES -->
+
+    <h2 class="section-title">
+        Available Services
+    </h2>
+
+    <div id="services" class="services">
+
+        <div class="empty">
+            Loading services...
+        </div>
+
+    </div>
+
+
+    <!-- BOOKINGS -->
+
+    <h2 class="section-title">
+        My Bookings
+    </h2>
+
+    <div id="bookings">
+
+        <div class="empty">
+            Loading bookings...
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+let allServices = [];
+let selectedCategory = "All";
+
+
+/* =========================
+   SERVICE ICON
+========================= */
+
+function getServiceIcon(name) {
+
+    const serviceName = name.toLowerCase();
+
+    if (serviceName.includes("fan") ||
+        serviceName.includes("wiring") ||
+        serviceName.includes("light")) {
+        return "🔌";
+    }
+
+    if (serviceName.includes("plumb") ||
+        serviceName.includes("pipe") ||
+        serviceName.includes("tap")) {
+        return "🚰";
+    }
+
+    if (serviceName.includes("carpenter") ||
+        serviceName.includes("furniture") ||
+        serviceName.includes("door")) {
+        return "🪚";
+    }
+
+    if (serviceName.includes("ac")) {
+        return "❄️";
+    }
+
+    if (serviceName.includes("appliance") ||
+        serviceName.includes("fridge") ||
+        serviceName.includes("washing") ||
+        serviceName.includes("tv")) {
+        return "🔧";
+    }
+
+    if (serviceName.includes("paint")) {
+        return "🎨";
+    }
+
+    if (serviceName.includes("pest") ||
+        serviceName.includes("cockroach") ||
+        serviceName.includes("termite")) {
+        return "🐜";
+    }
+
+    if (serviceName.includes("garden")) {
+        return "🌱";
+    }
+
+    if (serviceName.includes("electronic") ||
+        serviceName.includes("mobile") ||
+        serviceName.includes("laptop") ||
+        serviceName.includes("printer")) {
+        return "📱";
+    }
+
+    if (serviceName.includes("vehicle") ||
+        serviceName.includes("mechanic") ||
+        serviceName.includes("bike") ||
+        serviceName.includes("car")) {
+        return "🚗";
+    }
+
+    return "🛠️";
+}
+
+
+/* =========================
+   SERVICE CATEGORY
+========================= */
+
+function getCategory(name) {
+
+    const serviceName = name.toLowerCase();
+
+    if (serviceName.includes("fan") ||
+        serviceName.includes("wiring") ||
+        serviceName.includes("light")) {
+        return "Electrician";
+    }
+
+    if (serviceName.includes("plumb")) {
+        return "Plumber";
+    }
+
+    if (serviceName.includes("carpenter")) {
+        return "Carpenter";
+    }
+
+    if (serviceName.includes("ac")) {
+        return "AC";
+    }
+
+    if (serviceName.includes("appliance")) {
+        return "Appliance";
+    }
+
+    if (serviceName.includes("paint")) {
+        return "Painter";
+    }
+
+    if (serviceName.includes("pest")) {
+        return "Pest";
+    }
+
+    if (serviceName.includes("garden")) {
+        return "Gardener";
+    }
+
+    if (serviceName.includes("electronic")) {
+        return "Electronics";
+    }
+
+    if (serviceName.includes("vehicle") ||
+        serviceName.includes("mechanic")) {
+        return "Vehicle";
+    }
+
+    return "Other";
+}
+
+
+/* =========================
+   LOAD SERVICES
+========================= */
+
+async function loadServices() {
+
+    const container =
+        document.getElementById("services");
+
+    try {
+
+        const response =
+            await fetch("/api/services");
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load services"
+            );
+
+        }
+
+        allServices =
+            await response.json();
+
+
+        if (allServices.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">No services available yet.</div>';
+
+            return;
+
+        }
+
+        displayServices(allServices);
+
+    } catch (error) {
+
+        container.innerHTML =
+            '<div class="empty">Unable to load services.</div>';
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================
+   DISPLAY SERVICES
+========================= */
+
+function displayServices(services) {
+
+    const container =
+        document.getElementById("services");
+
+    container.innerHTML = "";
+
+
+    if (services.length === 0) {
+
+        container.innerHTML =
+            '<div class="empty">No matching services found.</div>';
+
+        return;
+
+    }
+
+
+    services.forEach(service => {
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "service-card";
+
+
+        const icon =
+            getServiceIcon(service.serviceName);
+
+        const category =
+            getCategory(service.serviceName);
+
+
+        let priceText =
+            "Price on request";
+
+        if (service.price !== null &&
+            service.price !== undefined &&
+            Number(service.price) > 0) {
+
+            priceText =
+                "₹" + service.price;
+
+        }
+
+
+        card.innerHTML = `
+
+            <div class="service-icon">
+                ${icon}
+            </div>
+
+            <span class="service-category">
+                ${category}
+            </span>
+
+            <h3>
+                ${service.serviceName}
+            </h3>
+
+            <p>
+                ${service.description ||
+                "Professional local service"}
+            </p>
+
+            <div class="service-price">
+                ${priceText}
+            </div>
+
+            <button
+                class="book-btn"
+                onclick="bookService(${service.id})">
+
+                Book Service
+
+            </button>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function filterServices() {
+
+    const search =
+        document.getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+
+    const filtered =
+        allServices.filter(service => {
+
+            const name =
+                service.serviceName
+                .toLowerCase();
+
+            const description =
+                (service.description || "")
+                .toLowerCase();
+
+            const matchesSearch =
+                name.includes(search) ||
+                description.includes(search);
+
+
+            const matchesCategory =
+                selectedCategory === "All" ||
+                getCategory(service.serviceName)
+                    === selectedCategory;
+
+
+            return matchesSearch &&
+                   matchesCategory;
+
+        });
+
+
+    displayServices(filtered);
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function filterCategory(category, button) {
+
+    selectedCategory =
+        category;
+
+
+    document
+        .querySelectorAll(".category-btn")
+        .forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+
+    filterServices();
+
+}
+
+
+/* =========================
+   BOOK SERVICE
+========================= */
+
+function bookService(serviceId) {
+
+    window.location.href =
+        "booking.html?serviceId=" + serviceId;
+
+}
+
+
+/* =========================
+   LOAD BOOKINGS
+========================= */
+
+async function loadBookings() {
+
+    const container =
+        document.getElementById("bookings");
+
+
+    const customerId =
+        localStorage.getItem("userId");
+
+
+    if (!customerId) {
+
+        container.innerHTML =
+            '<div class="empty">Please login to view your bookings.</div>';
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                "/api/bookings/customer/" + customerId
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Unable to load bookings"
+            );
+
+        }
+
+
+        const bookings =
+            await response.json();
+
+
+        if (bookings.length === 0) {
+
+            container.innerHTML =
+                '<div class="empty">You have no bookings yet.</div>';
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        bookings.forEach(booking => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "booking-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    Booking #${booking.id}
+                </h3>
+
+                <p>
+                    <strong>Service ID:</strong>
+                    ${booking.serviceId}
+                </p>
+
+                <p>
+                    <strong>Date:</strong>
+                    ${booking.bookingDate}
+                </p>
+
+                <p>
+                    <strong>Time:</strong>
+                    ${booking.bookingTime ||
+                    "Not specified"}
+                </p>
+
+                <p>
+                    <strong>Address:</strong>
+                    ${booking.address ||
+                    "Not provided"}
+                </p>
+
+                <p class="status">
+                    <strong>Status:</strong>
+                    ${booking.status}
+                </p>
+
+            `;
+
+
+            container.appendChild(card);
+
+        });
+
+
+    } catch (error) {
+
+        container.innerHTML =
+            '<div class="empty">Unable to load bookings.</div>';
+
+        console.error(error);
+
+    }
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadServices();
+
+loadBookings();
+
+</script>
+
+</body>
+
+</html>
+```
