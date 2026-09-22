@@ -1,3 +1,4 @@
+
 package com.localservices.marketplace.controller;
 
 import com.localservices.marketplace.model.ServiceProvider;
@@ -14,14 +15,20 @@ public class ServiceProviderController {
 
     private final ServiceProviderService serviceProviderService;
 
-    public ServiceProviderController(ServiceProviderService serviceProviderService) {
-        this.serviceProviderService = serviceProviderService;
+    public ServiceProviderController(
+            ServiceProviderService serviceProviderService) {
+
+        this.serviceProviderService =
+                serviceProviderService;
     }
+
 
     @GetMapping
     public List<ServiceProvider> getAllProviders() {
+
         return serviceProviderService.getAllProviders();
     }
+
 
     @PostMapping
     public ResponseEntity<ServiceProvider> addProvider(
@@ -32,17 +39,52 @@ public class ServiceProviderController {
         );
     }
 
+
     @GetMapping("/category/{category}")
     public List<ServiceProvider> getByCategory(
             @PathVariable String category) {
 
-        return serviceProviderService.getProvidersByCategory(category);
+        return serviceProviderService
+                .getProvidersByCategory(category);
     }
+
 
     @GetMapping("/location/{location}")
     public List<ServiceProvider> getByLocation(
             @PathVariable String location) {
 
-        return serviceProviderService.getProvidersByLocation(location);
+        return serviceProviderService
+                .getProvidersByLocation(location);
+    }
+
+
+    @PutMapping("/{providerId}/availability")
+    public ResponseEntity<ServiceProvider> updateAvailability(
+            @PathVariable Integer providerId,
+            @RequestParam boolean available) {
+
+        return ResponseEntity.ok(
+                serviceProviderService
+                        .updateAvailability(
+                                providerId,
+                                available
+                        )
+        );
+    }
+
+
+    @PutMapping("/{providerId}/emergency-availability")
+    public ResponseEntity<ServiceProvider>
+    updateEmergencyAvailability(
+            @PathVariable Integer providerId,
+            @RequestParam boolean available) {
+
+        return ResponseEntity.ok(
+                serviceProviderService
+                        .updateEmergencyAvailability(
+                                providerId,
+                                available
+                        )
+        );
     }
 }

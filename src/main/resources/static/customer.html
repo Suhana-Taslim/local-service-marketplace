@@ -6,417 +6,397 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Customer Dashboard | Local Service Marketplace</title>
+    <title>Customer Dashboard | Local Services</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
+            font-family: Arial, sans-serif;
             background: #f4f0e6;
-            color: #21152b;
+            color: #222;
         }
-
-        /* ================= HEADER ================= */
 
         header {
             background: #21152b;
             color: white;
-            padding: 18px 7%;
+            padding: 18px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            gap: 20px;
         }
 
-        header h1 {
-            font-size: 22px;
-        }
-
-        header a {
-            color: white;
-            text-decoration: none;
-            background: #6c63ff;
-            padding: 10px 20px;
-            border-radius: 8px;
+        .brand {
+            font-size: 23px;
             font-weight: bold;
         }
 
-        header a:hover {
-            background: #5148d8;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* ================= MAIN ================= */
+        .user-name {
+            color: #f4f0e6;
+        }
+
+        .logout {
+            border: none;
+            padding: 9px 15px;
+            border-radius: 8px;
+            background: #ffb38a;
+            color: #21152b;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            opacity: 0.9;
+        }
 
         .container {
-            width: 90%;
-            max-width: 1150px;
-            margin: 35px auto;
+            width: 92%;
+            max-width: 1250px;
+            margin: 30px auto;
         }
-
-        /* ================= WELCOME ================= */
 
         .welcome {
             background: white;
-            padding: 30px;
             border-radius: 18px;
-            margin-bottom: 30px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
 
-        .welcome h2 {
-            margin-bottom: 10px;
-            font-size: 26px;
+        .welcome h1 {
+            color: #6c3bd1;
+            margin-bottom: 8px;
         }
 
         .welcome p {
             color: #666;
-            line-height: 1.6;
         }
 
-        /* ================= SEARCH ================= */
-
-        .search-box {
-            background: white;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+        .section-title {
+            margin-bottom: 15px;
+            color: #21152b;
         }
-
-        .search-box input {
-            width: 100%;
-            padding: 14px 18px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 15px;
-            outline: none;
-        }
-
-        .search-box input:focus {
-            border-color: #6c63ff;
-        }
-
-        /* ================= CATEGORIES ================= */
 
         .categories {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 28px;
         }
 
         .category-btn {
-            width: auto;
-            padding: 10px 16px;
-            background: white;
-            color: #21152b;
-            border: 1px solid #ddd;
+            border: none;
+            padding: 11px 17px;
             border-radius: 20px;
-            cursor: pointer;
+            background: white;
+            color: #6c3bd1;
             font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
         }
 
         .category-btn:hover,
         .category-btn.active {
-            background: #6c63ff;
+            background: #6c3bd1;
             color: white;
-            border-color: #6c63ff;
         }
 
-        /* ================= SECTION TITLE ================= */
-
-        .section-title {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        /* ================= SERVICES ================= */
-
-        .services {
+        .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 22px;
-            margin-bottom: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .service-card {
             background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            transition: 0.25s ease;
-            position: relative;
-        }
-
-        .service-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-        }
-
-        .service-icon {
-            width: 55px;
-            height: 55px;
-            background: #eeeaff;
-            border-radius: 14px;
+            padding: 22px;
+            border-radius: 17px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin-bottom: 18px;
+            flex-direction: column;
+            min-height: 220px;
         }
 
         .service-card h3 {
+            color: #6c3bd1;
             margin-bottom: 10px;
-            font-size: 19px;
         }
 
         .service-card p {
             color: #666;
             line-height: 1.5;
-            min-height: 48px;
-            margin-bottom: 15px;
+            flex: 1;
         }
 
-        .service-price {
-            font-weight: bold;
-            color: #6c63ff;
-            margin-bottom: 15px;
-        }
-
-        .service-category {
-            display: inline-block;
-            background: #f0edff;
-            color: #5148d8;
-            padding: 5px 9px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-bottom: 12px;
+        .provider {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #555;
         }
 
         .book-btn {
-            width: 100%;
+            margin-top: 18px;
             padding: 12px;
             border: none;
-            border-radius: 9px;
-            background: #6c63ff;
+            border-radius: 10px;
+            background: #7c3aed;
             color: white;
-            cursor: pointer;
             font-weight: bold;
-            font-size: 14px;
+            cursor: pointer;
         }
 
         .book-btn:hover {
-            background: #5148d8;
+            background: #6426c5;
         }
 
-        /* ================= BOOKINGS ================= */
+        .cancel-btn {
+            margin-top: 12px;
+            padding: 11px;
+            border: none;
+            border-radius: 10px;
+            background: #c62828;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .cancel-btn:hover {
+            background: #a51f1f;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            color: #666;
+        }
+
+        .booking-section {
+            margin-top: 40px;
+        }
 
         .booking-card {
             background: white;
-            padding: 25px;
-            margin-bottom: 18px;
-            border-radius: 16px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
         }
 
         .booking-card h3 {
-            margin-bottom: 15px;
-            font-size: 20px;
+            color: #6c3bd1;
+            margin-bottom: 10px;
         }
 
-        .booking-card p {
-            margin-bottom: 9px;
+        .booking-row {
+            margin: 6px 0;
             color: #555;
         }
 
         .status {
-            margin-top: 15px;
-            padding-top: 12px;
-            border-top: 1px solid #eee;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 7px 12px;
+            border-radius: 15px;
+            font-size: 13px;
             font-weight: bold;
-            color: #6c63ff !important;
+            background: #eee;
         }
 
-        /* ================= EMPTY ================= */
-
-        .empty {
-            background: white;
+        .emergency {
+            margin-top: 40px;
+            background: #21152b;
+            color: white;
             padding: 28px;
-            border-radius: 14px;
-            text-align: center;
-            color: #666;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
-            grid-column: 1 / -1;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
         }
 
-        /* ================= MOBILE ================= */
+        .emergency h2 {
+            margin-bottom: 8px;
+        }
 
-        @media (max-width: 600px) {
+        .emergency p {
+            color: #ddd;
+        }
+
+        .emergency-btn {
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            background: #ffb38a;
+            color: #21152b;
+            font-weight: bold;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .account-section {
+            margin-top: 35px;
+            text-align: right;
+        }
+
+        .delete-btn {
+            border: 1px solid #c62828;
+            background: white;
+            color: #c62828;
+            padding: 10px 16px;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+
+        .delete-btn:hover {
+            background: #c62828;
+            color: white;
+        }
+
+        @media (max-width: 700px) {
 
             header {
-                padding: 15px 5%;
+                padding: 15px 20px;
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            header h1 {
-                font-size: 18px;
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
             }
 
-            header a {
-                padding: 8px 13px;
+            .emergency {
+                flex-direction: column;
+                align-items: flex-start;
             }
 
-            .container {
-                width: 92%;
-                margin: 25px auto;
+            .emergency-btn {
+                width: 100%;
             }
-
-            .welcome {
-                padding: 22px;
-            }
-
-            .welcome h2 {
-                font-size: 22px;
-            }
-
-            .section-title {
-                font-size: 21px;
-            }
-
-            .categories {
-                overflow-x: auto;
-                flex-wrap: nowrap;
-                padding-bottom: 5px;
-            }
-
-            .category-btn {
-                white-space: nowrap;
-            }
-
         }
-
     </style>
-
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-
 <header>
 
-    <h1>Local Service Marketplace</h1>
+    <div class="brand">
+        LOCAL SERVICES
+    </div>
 
-    <a href="index.html">Home</a>
+    <div class="header-right">
+
+        <span class="user-name" id="userName">
+            Customer
+        </span>
+
+        <button class="logout" onclick="logout()">
+            Logout
+        </button>
+
+    </div>
 
 </header>
 
 
-<!-- ================= MAIN ================= -->
-
 <div class="container">
-
-    <!-- WELCOME -->
 
     <div class="welcome">
 
-        <h2>Welcome, Customer! 👋</h2>
+        <h1>
+            Welcome, <span id="welcomeName">Customer</span>!
+        </h1>
 
         <p>
-            Find trusted local professionals, book services easily,
-            and track your service requests from one place.
+            Find trusted local professionals and book
+            the service you need.
         </p>
 
     </div>
 
 
-    <!-- SEARCH -->
+    <h2 class="section-title">
+        Browse Services
+    </h2>
 
-    <div class="search-box">
-
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="🔍 Search for a service..."
-            oninput="filterServices()">
-
-    </div>
-
-
-    <!-- CATEGORIES -->
 
     <div class="categories">
 
         <button class="category-btn active"
-                onclick="filterCategory('All', this)">
+                onclick="filterServices('ALL', this)">
             All
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Electrician', this)">
-            🔌 Electrician
+                onclick="filterServices('Electrician', this)">
+            Electrician
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Plumber', this)">
-            🚰 Plumber
+                onclick="filterServices('Plumber', this)">
+            Plumber
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Carpenter', this)">
-            🪚 Carpenter
+                onclick="filterServices('Carpenter', this)">
+            Carpenter
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('AC', this)">
-            ❄️ AC
+                onclick="filterServices('AC Technician', this)">
+            AC Technician
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Appliance', this)">
-            🔧 Appliances
+                onclick="filterServices('Appliance Repair', this)">
+            Appliance Repair
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Painter', this)">
-            🎨 Painter
+                onclick="filterServices('Painter', this)">
+            Painter
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Pest', this)">
-            🐜 Pest Control
+                onclick="filterServices('Pest Control', this)">
+            Pest Control
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Gardener', this)">
-            🌱 Gardener
+                onclick="filterServices('Gardener', this)">
+            Gardener
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Electronics', this)">
-            📱 Electronics
+                onclick="filterServices('Electronics Repair', this)">
+            Electronics Repair
         </button>
 
         <button class="category-btn"
-                onclick="filterCategory('Vehicle', this)">
-            🚗 Vehicle
+                onclick="filterServices('Vehicle Mechanic', this)">
+            Vehicle Mechanic
         </button>
 
     </div>
 
 
-    <!-- SERVICES -->
-
-    <h2 class="section-title">
-        Available Services
-    </h2>
-
-    <div id="services" class="services">
+    <div id="servicesContainer"
+         class="services-grid">
 
         <div class="empty">
             Loading services...
@@ -425,151 +405,82 @@
     </div>
 
 
-    <!-- BOOKINGS -->
+    <div class="booking-section">
 
-    <h2 class="section-title">
-        My Bookings
-    </h2>
+        <h2 class="section-title">
+            My Bookings
+        </h2>
 
-    <div id="bookings">
+        <div id="bookingsContainer">
 
-        <div class="empty">
-            Loading bookings...
+            <div class="empty">
+                Loading bookings...
+            </div>
+
         </div>
+
+    </div>
+
+
+    <div class="emergency">
+
+        <div>
+
+            <h2>
+                Need Emergency Help?
+            </h2>
+
+            <p>
+                Request an available nearby professional
+                for urgent service.
+            </p>
+
+        </div>
+
+        <button class="emergency-btn"
+                onclick="openEmergency()">
+            Request Emergency Service
+        </button>
+
+    </div>
+
+
+    <div class="account-section">
+
+        <button class="delete-btn"
+                onclick="deleteAccount()">
+            Delete My Account
+        </button>
 
     </div>
 
 </div>
 
 
+```html
 <script>
 
+const userId =
+    localStorage.getItem("userId");
+
+const userName =
+    localStorage.getItem("userName");
+
+
+if (!userId) {
+    window.location.href = "login.html";
+}
+
+
+document.getElementById("userName")
+    .textContent = userName || "Customer";
+
+document.getElementById("welcomeName")
+    .textContent = userName || "Customer";
+
+
 let allServices = [];
-let selectedCategory = "All";
-
-
-/* =========================
-   SERVICE ICON
-========================= */
-
-function getServiceIcon(name) {
-
-    const serviceName = name.toLowerCase();
-
-    if (serviceName.includes("fan") ||
-        serviceName.includes("wiring") ||
-        serviceName.includes("light")) {
-        return "🔌";
-    }
-
-    if (serviceName.includes("plumb") ||
-        serviceName.includes("pipe") ||
-        serviceName.includes("tap")) {
-        return "🚰";
-    }
-
-    if (serviceName.includes("carpenter") ||
-        serviceName.includes("furniture") ||
-        serviceName.includes("door")) {
-        return "🪚";
-    }
-
-    if (serviceName.includes("ac")) {
-        return "❄️";
-    }
-
-    if (serviceName.includes("appliance") ||
-        serviceName.includes("fridge") ||
-        serviceName.includes("washing") ||
-        serviceName.includes("tv")) {
-        return "🔧";
-    }
-
-    if (serviceName.includes("paint")) {
-        return "🎨";
-    }
-
-    if (serviceName.includes("pest") ||
-        serviceName.includes("cockroach") ||
-        serviceName.includes("termite")) {
-        return "🐜";
-    }
-
-    if (serviceName.includes("garden")) {
-        return "🌱";
-    }
-
-    if (serviceName.includes("electronic") ||
-        serviceName.includes("mobile") ||
-        serviceName.includes("laptop") ||
-        serviceName.includes("printer")) {
-        return "📱";
-    }
-
-    if (serviceName.includes("vehicle") ||
-        serviceName.includes("mechanic") ||
-        serviceName.includes("bike") ||
-        serviceName.includes("car")) {
-        return "🚗";
-    }
-
-    return "🛠️";
-}
-
-
-/* =========================
-   SERVICE CATEGORY
-========================= */
-
-function getCategory(name) {
-
-    const serviceName = name.toLowerCase();
-
-    if (serviceName.includes("fan") ||
-        serviceName.includes("wiring") ||
-        serviceName.includes("light")) {
-        return "Electrician";
-    }
-
-    if (serviceName.includes("plumb")) {
-        return "Plumber";
-    }
-
-    if (serviceName.includes("carpenter")) {
-        return "Carpenter";
-    }
-
-    if (serviceName.includes("ac")) {
-        return "AC";
-    }
-
-    if (serviceName.includes("appliance")) {
-        return "Appliance";
-    }
-
-    if (serviceName.includes("paint")) {
-        return "Painter";
-    }
-
-    if (serviceName.includes("pest")) {
-        return "Pest";
-    }
-
-    if (serviceName.includes("garden")) {
-        return "Gardener";
-    }
-
-    if (serviceName.includes("electronic")) {
-        return "Electronics";
-    }
-
-    if (serviceName.includes("vehicle") ||
-        serviceName.includes("mechanic")) {
-        return "Vehicle";
-    }
-
-    return "Other";
-}
+let allProviders = [];
 
 
 /* =========================
@@ -579,7 +490,7 @@ function getCategory(name) {
 async function loadServices() {
 
     const container =
-        document.getElementById("services");
+        document.getElementById("servicesContainer");
 
     try {
 
@@ -587,37 +498,207 @@ async function loadServices() {
             await fetch("/api/services");
 
         if (!response.ok) {
-
-            throw new Error(
-                "Unable to load services"
-            );
-
+            throw new Error("Unable to load services");
         }
 
         allServices =
             await response.json();
 
-
-        if (allServices.length === 0) {
-
-            container.innerHTML =
-                '<div class="empty">No services available yet.</div>';
-
-            return;
-
-        }
-
         displayServices(allServices);
 
     } catch (error) {
 
-        container.innerHTML =
-            '<div class="empty">Unable to load services.</div>';
-
         console.error(error);
 
+        container.innerHTML = `
+            <div class="empty">
+                Unable to load services.
+                Please try again.
+            </div>
+        `;
+    }
+}
+
+
+/* =========================
+   LOAD PROVIDERS
+========================= */
+
+async function loadProviders() {
+
+    try {
+
+        const response =
+            await fetch("/api/providers");
+
+        if (!response.ok) {
+            throw new Error("Unable to load providers");
+        }
+
+        allProviders =
+            await response.json();
+
+    } catch (error) {
+
+        console.error("Provider loading error:", error);
+
+        allProviders = [];
+    }
+}
+
+
+/* =========================
+   GET PROVIDER NAME
+========================= */
+
+function getProviderName(providerId) {
+
+    if (!providerId) {
+        return "Not assigned";
     }
 
+    const provider =
+        allProviders.find(
+            p => Number(p.id) === Number(providerId)
+        );
+
+    if (!provider) {
+        return "Provider #" + providerId;
+    }
+
+    return provider.businessName ||
+           provider.name ||
+           "Provider #" + providerId;
+}
+
+
+/* =========================
+   GET SERVICE NAME
+========================= */
+
+function getServiceName(serviceId) {
+
+    if (!serviceId) {
+        return "Service not specified";
+    }
+
+    const service =
+        allServices.find(
+            s => Number(s.id) === Number(serviceId)
+        );
+
+    if (!service) {
+        return "Service #" + serviceId;
+    }
+
+    return service.serviceName ||
+           "Service #" + serviceId;
+}
+
+
+/* =========================
+   CATEGORY DETECTION
+========================= */
+
+function getCategory(service) {
+
+    const text =
+        (
+            service.serviceName +
+            " " +
+            (service.description || "")
+        ).toLowerCase();
+
+
+    if (
+        text.includes("appliance") ||
+        text.includes("washing machine") ||
+        text.includes("refrigerator") ||
+        text.includes("fridge")
+    ) {
+        return "Appliance Repair";
+    }
+
+
+    if (
+        text.includes("electric") ||
+        text.includes("wiring") ||
+        text.includes("fan") ||
+        text.includes("light")
+    ) {
+        return "Electrician";
+    }
+
+
+    if (
+        text.includes("plumb") ||
+        text.includes("pipe") ||
+        text.includes("tap")
+    ) {
+        return "Plumber";
+    }
+
+
+    if (
+        text.includes("carpent") ||
+        text.includes("furniture") ||
+        text.includes("wood")
+    ) {
+        return "Carpenter";
+    }
+
+
+    if (
+        text.includes("ac ") ||
+        text.includes("ac service") ||
+        text.includes("air conditioner") ||
+        text.includes("cooling")
+    ) {
+        return "AC Technician";
+    }
+
+
+    if (text.includes("paint")) {
+        return "Painter";
+    }
+
+
+    if (
+        text.includes("pest") ||
+        text.includes("insect")
+    ) {
+        return "Pest Control";
+    }
+
+
+    if (
+        text.includes("garden") ||
+        text.includes("gardener")
+    ) {
+        return "Gardener";
+    }
+
+
+    if (
+        text.includes("electronic") ||
+        text.includes("mobile") ||
+        text.includes("tv")
+    ) {
+        return "Electronics Repair";
+    }
+
+
+    if (
+        text.includes("vehicle") ||
+        text.includes("car") ||
+        text.includes("bike") ||
+        text.includes("mechanic")
+    ) {
+        return "Vehicle Mechanic";
+    }
+
+
+    return "Other";
 }
 
 
@@ -628,161 +709,112 @@ async function loadServices() {
 function displayServices(services) {
 
     const container =
-        document.getElementById("services");
-
-    container.innerHTML = "";
+        document.getElementById("servicesContainer");
 
 
-    if (services.length === 0) {
+    if (!services.length) {
 
-        container.innerHTML =
-            '<div class="empty">No matching services found.</div>';
+        container.innerHTML = `
+            <div class="empty">
+                No services available in this category.
+            </div>
+        `;
 
         return;
-
     }
 
 
-    services.forEach(service => {
+    container.innerHTML =
+        services.map(service => {
 
-        const card =
-            document.createElement("div");
+            return `
 
-        card.className =
-            "service-card";
+                <div class="service-card">
 
+                    <h3>
+                        ${escapeHtml(service.serviceName)}
+                    </h3>
 
-        const icon =
-            getServiceIcon(service.serviceName);
+                    <p>
+                        ${escapeHtml(
+                            service.description ||
+                            "Professional local service."
+                        )}
+                    </p>
 
-        const category =
-            getCategory(service.serviceName);
+                    <div class="provider">
+                        Provider:
+                        ${escapeHtml(
+                            getProviderName(service.providerId)
+                        )}
+                    </div>
 
+                    <button
+                        class="book-btn"
+                        onclick="bookService(${service.id})">
 
-        let priceText =
-            "Price on request";
+                        Book This Service
 
-        if (service.price !== null &&
-            service.price !== undefined &&
-            Number(service.price) > 0) {
+                    </button>
 
-            priceText =
-                "₹" + service.price;
+                </div>
 
-        }
+            `;
 
-
-        card.innerHTML = `
-
-            <div class="service-icon">
-                ${icon}
-            </div>
-
-            <span class="service-category">
-                ${category}
-            </span>
-
-            <h3>
-                ${service.serviceName}
-            </h3>
-
-            <p>
-                ${service.description ||
-                "Professional local service"}
-            </p>
-
-            <div class="service-price">
-                ${priceText}
-            </div>
-
-            <button
-                class="book-btn"
-                onclick="bookService(${service.id})">
-
-                Book Service
-
-            </button>
-
-        `;
-
-
-        container.appendChild(card);
-
-    });
-
+        }).join("");
 }
 
 
 /* =========================
-   SEARCH
+   FILTER SERVICES
 ========================= */
 
-function filterServices() {
+function filterServices(category, button) {
 
-    const search =
-        document.getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
+    document.querySelectorAll(".category-btn")
+        .forEach(btn =>
+            btn.classList.remove("active")
+        );
+
+    button.classList.add("active");
+
+
+    if (category === "ALL") {
+
+        displayServices(allServices);
+
+        return;
+    }
 
 
     const filtered =
         allServices.filter(service => {
 
-            const name =
-                service.serviceName
-                .toLowerCase();
+            const serviceName =
+                (service.serviceName || "")
+                    .toLowerCase();
 
             const description =
                 (service.description || "")
-                .toLowerCase();
-
-            const matchesSearch =
-                name.includes(search) ||
-                description.includes(search);
+                    .toLowerCase();
 
 
-            const matchesCategory =
-                selectedCategory === "All" ||
-                getCategory(service.serviceName)
-                    === selectedCategory;
+            if (category === "Appliance Repair") {
+
+                return serviceName.includes("appliance")
+                    || description.includes("appliance")
+                    || description.includes("fridge")
+                    || description.includes("washing machine")
+                    || description.includes("refrigerator")
+                    || description.includes("tv repair");
+            }
 
 
-            return matchesSearch &&
-                   matchesCategory;
-
+            return getCategory(service) === category;
         });
 
 
     displayServices(filtered);
-
-}
-
-
-/* =========================
-   CATEGORY FILTER
-========================= */
-
-function filterCategory(category, button) {
-
-    selectedCategory =
-        category;
-
-
-    document
-        .querySelectorAll(".category-btn")
-        .forEach(btn => {
-
-            btn.classList.remove("active");
-
-        });
-
-
-    button.classList.add("active");
-
-
-    filterServices();
-
 }
 
 
@@ -793,8 +825,7 @@ function filterCategory(category, button) {
 function bookService(serviceId) {
 
     window.location.href =
-        "booking.html?serviceId=" + serviceId;
-
+        `booking.html?serviceId=${serviceId}`;
 }
 
 
@@ -805,20 +836,144 @@ function bookService(serviceId) {
 async function loadBookings() {
 
     const container =
-        document.getElementById("bookings");
+        document.getElementById("bookingsContainer");
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/bookings/customer/${userId}`
+            );
+
+        if (!response.ok) {
+            throw new Error("Unable to load bookings");
+        }
+
+        const bookings =
+            await response.json();
 
 
-    const customerId =
-        localStorage.getItem("userId");
+        if (!bookings.length) {
 
+            container.innerHTML = `
+                <div class="empty">
+                    You have no bookings yet.
+                </div>
+            `;
 
-    if (!customerId) {
+            return;
+        }
+
 
         container.innerHTML =
-            '<div class="empty">Please login to view your bookings.</div>';
+            bookings.map(booking => {
 
+                const canCancel =
+                    booking.status === "PENDING" ||
+                    booking.status === "ACCEPTED";
+
+
+                const serviceName =
+                    getServiceName(booking.serviceId);
+
+                const providerName =
+                    getProviderName(booking.providerId);
+
+
+                return `
+
+                    <div class="booking-card">
+
+                        <h3>
+                            Booking #${booking.id}
+                        </h3>
+
+                        <div class="booking-row">
+                            Service:
+                            ${escapeHtml(serviceName)}
+                        </div>
+
+                        <div class="booking-row">
+                            Provider:
+                            ${escapeHtml(providerName)}
+                        </div>
+
+                        <div class="booking-row">
+                            Date:
+                            ${booking.bookingDate}
+                        </div>
+
+                        <div class="booking-row">
+                            Time:
+                            ${booking.bookingTime || "Not specified"}
+                        </div>
+
+                        <div class="booking-row">
+                            Address:
+                            ${escapeHtml(
+                                booking.address ||
+                                "Not provided"
+                            )}
+                        </div>
+
+                        <div class="booking-row">
+                            Payment:
+                            Offline — pay provider directly
+                        </div>
+
+                        <span class="status">
+                            ${escapeHtml(booking.status)}
+                        </span>
+
+
+                        ${
+                            canCancel
+                            ? `
+                                <button
+                                    class="cancel-btn"
+                                    onclick="cancelBooking(${booking.id})">
+
+                                    Cancel Booking
+
+                                </button>
+                              `
+                            : ""
+                        }
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty">
+                Unable to load bookings.
+            </div>
+        `;
+    }
+}
+
+
+/* =========================
+   CANCEL BOOKING
+========================= */
+
+async function cancelBooking(bookingId) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to cancel this booking?"
+        );
+
+
+    if (!confirmed) {
         return;
-
     }
 
 
@@ -826,109 +981,191 @@ async function loadBookings() {
 
         const response =
             await fetch(
-                "/api/bookings/customer/" + customerId
+                `/api/bookings/${bookingId}/status?status=CANCELLED`,
+                {
+                    method: "PUT"
+                }
             );
 
 
         if (!response.ok) {
 
-            throw new Error(
-                "Unable to load bookings"
+            const error =
+                await response.text();
+
+            alert(
+                error ||
+                "Unable to cancel booking."
             );
 
-        }
-
-
-        const bookings =
-            await response.json();
-
-
-        if (bookings.length === 0) {
-
-            container.innerHTML =
-                '<div class="empty">You have no bookings yet.</div>';
-
             return;
-
         }
 
 
-        container.innerHTML = "";
+        alert(
+            "Booking cancelled successfully."
+        );
 
 
-        bookings.forEach(booking => {
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "booking-card";
-
-
-            card.innerHTML = `
-
-                <h3>
-                    Booking #${booking.id}
-                </h3>
-
-                <p>
-                    <strong>Service ID:</strong>
-                    ${booking.serviceId}
-                </p>
-
-                <p>
-                    <strong>Date:</strong>
-                    ${booking.bookingDate}
-                </p>
-
-                <p>
-                    <strong>Time:</strong>
-                    ${booking.bookingTime ||
-                    "Not specified"}
-                </p>
-
-                <p>
-                    <strong>Address:</strong>
-                    ${booking.address ||
-                    "Not provided"}
-                </p>
-
-                <p class="status">
-                    <strong>Status:</strong>
-                    ${booking.status}
-                </p>
-
-            `;
-
-
-            container.appendChild(card);
-
-        });
+        loadBookings();
 
 
     } catch (error) {
 
-        container.innerHTML =
-            '<div class="empty">Unable to load bookings.</div>';
-
         console.error(error);
 
+        alert(
+            "Unable to connect to the server."
+        );
     }
-
 }
 
 
 /* =========================
-   START
+   EMERGENCY
 ========================= */
 
-loadServices();
+function openEmergency() {
 
-loadBookings();
+    window.location.href =
+        "emergency.html";
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout() {
+
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
+
+    window.location.href =
+        "login.html";
+}
+
+
+/* =========================
+   DELETE ACCOUNT
+========================= */
+
+async function deleteAccount() {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to permanently delete your account?"
+        );
+
+
+    if (!confirmed) {
+        return;
+    }
+
+
+    const userId =
+        localStorage.getItem("userId");
+
+
+    if (!userId) {
+
+        alert(
+            "Please login again."
+        );
+
+        window.location.href =
+            "login.html";
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/users/${userId}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const result =
+            await response.text();
+
+
+        if (!response.ok) {
+
+            alert(
+                result ||
+                "Unable to delete account."
+            );
+
+            return;
+        }
+
+
+        alert(
+            "Your account has been deleted successfully."
+        );
+
+
+        localStorage.clear();
+
+        window.location.href =
+            "index.html";
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to connect to the server."
+        );
+    }
+}
+
+
+/* =========================
+   HTML ESCAPE
+========================= */
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value == null ? "" : value;
+
+    return div.innerHTML;
+}
+
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+async function initializeDashboard() {
+
+    await Promise.all([
+        loadServices(),
+        loadProviders()
+    ]);
+
+    await loadBookings();
+}
+
+
+initializeDashboard();
 
 </script>
+```
 
 </body>
-
 </html>
 ```

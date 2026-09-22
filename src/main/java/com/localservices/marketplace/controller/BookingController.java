@@ -24,18 +24,33 @@ public class BookingController {
     }
 
     @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody Booking booking) {
-        return ResponseEntity.ok(bookingService.createBooking(booking));
+    public ResponseEntity<Booking> createBooking(
+            @RequestBody Booking booking) {
+
+        return ResponseEntity.ok(
+                bookingService.createBooking(booking)
+        );
     }
 
     @GetMapping("/customer/{customerId}")
-    public List<Booking> getByCustomer(@PathVariable Integer customerId) {
+    public List<Booking> getByCustomer(
+            @PathVariable Integer customerId) {
+
         return bookingService.getBookingsByCustomer(customerId);
     }
 
     @GetMapping("/service/{serviceId}")
-    public List<Booking> getByService(@PathVariable Integer serviceId) {
+    public List<Booking> getByService(
+            @PathVariable Integer serviceId) {
+
         return bookingService.getBookingsByService(serviceId);
+    }
+
+    @GetMapping("/provider/{providerId}")
+    public List<Booking> getByProvider(
+            @PathVariable Integer providerId) {
+
+        return bookingService.getBookingsByProvider(providerId);
     }
 
     @PutMapping("/{bookingId}/status")
@@ -44,7 +59,10 @@ public class BookingController {
             @RequestParam String status) {
 
         return ResponseEntity.ok(
-                bookingService.updateBookingStatus(bookingId, status)
+                bookingService.updateBookingStatus(
+                        bookingId,
+                        status
+                )
         );
     }
 }

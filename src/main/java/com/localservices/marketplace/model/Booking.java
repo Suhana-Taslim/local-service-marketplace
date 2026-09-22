@@ -2,8 +2,8 @@ package com.localservices.marketplace.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "bookings")
@@ -19,13 +19,17 @@ public class Booking {
     @Column(name = "service_id", nullable = false)
     private Integer serviceId;
 
+    @Column(name = "provider_id")
+    private Integer providerId;
+
     @Column(name = "booking_date", nullable = false)
     private LocalDate bookingDate;
 
     @Column(name = "booking_time")
     private LocalTime bookingTime;
 
-    private String status;
+    @Column(nullable = false)
+    private String status = "PENDING";
 
     private String address;
 
@@ -33,6 +37,17 @@ public class Booking {
     private LocalDateTime createdAt;
 
     public Booking() {
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+
+        if (status == null || status.isBlank()) {
+            status = "PENDING";
+        }
     }
 
     public Integer getId() {
@@ -57,6 +72,14 @@ public class Booking {
 
     public void setServiceId(Integer serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public Integer getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(Integer providerId) {
+        this.providerId = providerId;
     }
 
     public LocalDate getBookingDate() {

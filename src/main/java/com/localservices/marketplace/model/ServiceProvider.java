@@ -25,6 +25,16 @@ public class ServiceProvider {
 
     private Integer experience;
 
+    @Column(nullable = false)
+    private Boolean available = true;
+
+    @Column(name = "emergency_available", nullable = false)
+    private Boolean emergencyAvailable = true;
+
+    private Double latitude;
+
+    private Double longitude;
+
     public ServiceProvider() {
     }
 
@@ -82,5 +92,37 @@ public class ServiceProvider {
 
     public void setExperience(Integer experience) {
         this.experience = experience;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public Boolean getEmergencyAvailable() {
+        return emergencyAvailable;
+    }
+
+    public void setEmergencyAvailable(Boolean emergencyAvailable) {
+        this.emergencyAvailable = emergencyAvailable;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }

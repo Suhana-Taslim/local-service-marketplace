@@ -1,288 +1,446 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Provider Dashboard | Local Service Marketplace</title>
+    <title>Provider Dashboard | Local Services</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
+            font-family: Arial, sans-serif;
             background: #f4f0e6;
-            color: #21152b;
+            color: #222;
         }
-
-        /* HEADER */
 
         header {
             background: #21152b;
             color: white;
-            padding: 18px 7%;
+            padding: 18px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            gap: 20px;
         }
 
-        header h1 {
-            font-size: 22px;
-        }
-
-        header a {
-            color: white;
-            text-decoration: none;
-            background: #6c63ff;
-            padding: 10px 20px;
-            border-radius: 8px;
+        .brand {
+            font-size: 23px;
             font-weight: bold;
         }
 
-        header a:hover {
-            background: #5148d8;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        /* MAIN CONTAINER */
+        .provider-name {
+            color: #f4f0e6;
+        }
+
+        .logout {
+            border: none;
+            padding: 9px 15px;
+            border-radius: 8px;
+            background: #ffb38a;
+            color: #21152b;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
         .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: 35px auto;
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
         }
-
-        /* WELCOME */
 
         .welcome {
             background: white;
-            padding: 30px;
             border-radius: 18px;
-            margin-bottom: 35px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        .welcome h2 {
-            margin-bottom: 10px;
-            font-size: 26px;
+        .welcome h1 {
+            color: #6c3bd1;
+            margin-bottom: 8px;
         }
 
         .welcome p {
             color: #666;
-            line-height: 1.6;
         }
 
-        /* TITLE */
-
-        .section-title {
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        /* BOOKING CARD */
-
-        .booking-card {
+        .controls {
             background: white;
-            padding: 25px;
-            margin-bottom: 20px;
+            padding: 20px;
             border-radius: 16px;
-            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-            transition: 0.25s ease;
+            margin-bottom: 28px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.07);
         }
 
-        .booking-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 24px rgba(0,0,0,0.11);
+        .controls h2 {
+            color: #21152b;
+            margin-bottom: 15px;
         }
 
-        .booking-card h3 {
-            margin-bottom: 16px;
-            font-size: 20px;
+        .control-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
-        .booking-card p {
-            margin-bottom: 9px;
+        .control-btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .available-btn {
+            background: #dff5df;
+            color: #247324;
+        }
+
+        .unavailable-btn {
+            background: #f5dddd;
+            color: #9b2222;
+        }
+
+        .emergency-btn {
+            background: #eee2ff;
+            color: #6c3bd1;
+        }
+
+        .section {
+            margin-top: 35px;
+        }
+
+        .section h2 {
+            color: #21152b;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+        }
+
+        .card h3 {
+            color: #6c3bd1;
+            margin-bottom: 12px;
+        }
+
+        .row {
+            margin: 7px 0;
             color: #555;
         }
 
-        /* STATUS */
-
         .status {
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px solid #eee;
+            display: inline-block;
+            margin-top: 12px;
+            padding: 7px 12px;
+            border-radius: 15px;
+            background: #eee;
+            font-size: 13px;
             font-weight: bold;
-            color: #6c63ff !important;
         }
 
-        /* BUTTONS */
-
-        .buttons {
+        .actions {
             display: flex;
-            gap: 12px;
-            margin-top: 18px;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
         }
 
-        .buttons button {
+        .action-btn {
             border: none;
-            padding: 11px 20px;
+            padding: 10px 16px;
             border-radius: 9px;
-            color: white;
             cursor: pointer;
             font-weight: bold;
-            font-size: 14px;
         }
 
         .accept {
-            background: #28a745;
+            background: #dff5df;
+            color: #247324;
         }
 
         .reject {
-            background: #dc3545;
+            background: #f5dddd;
+            color: #9b2222;
         }
 
-        .accept:hover {
-            background: #218838;
+        .complete {
+            background: #eee2ff;
+            color: #6c3bd1;
         }
-
-        .reject:hover {
-            background: #c82333;
-        }
-
-        /* EMPTY */
 
         .empty {
             background: white;
-            padding: 30px;
-            border-radius: 14px;
+            padding: 28px;
+            border-radius: 15px;
             text-align: center;
             color: #666;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.06);
         }
 
-        /* MOBILE */
+        .message {
+            margin-top: 12px;
+            color: #6c3bd1;
+            font-weight: bold;
+        }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
 
             header {
-                padding: 15px 5%;
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 20px;
             }
 
-            header h1 {
-                font-size: 18px;
-            }
-
-            header a {
-                padding: 8px 13px;
+            .header-right {
+                width: 100%;
+                justify-content: space-between;
             }
 
             .container {
-                width: 92%;
-                margin: 25px auto;
+                width: 94%;
             }
-
-            .welcome {
-                padding: 22px;
-            }
-
-            .welcome h2 {
-                font-size: 22px;
-            }
-
-            .section-title {
-                font-size: 21px;
-            }
-
-            .buttons {
-                flex-direction: column;
-            }
-
         }
-
     </style>
-
 </head>
 
 <body>
 
-
-<!-- HEADER -->
-
 <header>
 
-    <h1>Local Service Marketplace</h1>
+    <div class="brand">
+        LOCAL SERVICES
+    </div>
 
-    <a href="index.html">Home</a>
+    <div class="header-right">
+
+        <span class="provider-name" id="providerName">
+            Provider
+        </span>
+
+        <button class="delete-account" onclick="deleteAccount()">
+    Delete Account
+</button>
+
+<button class="logout" onclick="logout()">
+    Logout
+</button>
+
+    </div>
 
 </header>
 
 
-<!-- MAIN -->
-
 <div class="container">
-
-
-    <!-- WELCOME -->
 
     <div class="welcome">
 
-        <h2>Welcome, Ravi Kumar! 👋</h2>
+        <h1>
+            Provider Dashboard
+        </h1>
 
         <p>
-            View customer bookings and manage your service requests.
+            Manage your service bookings and emergency requests.
         </p>
 
     </div>
 
 
-    <!-- BOOKINGS -->
+    <div class="controls">
 
-    <h2 class="section-title">
-        Customer Bookings
-    </h2>
+        <h2>
+            Availability
+        </h2>
 
-    <div id="bookings">
+        <div class="control-row">
 
-        <div class="empty">
-            Loading bookings...
+            <button
+                class="control-btn available-btn"
+                onclick="setAvailability(true)">
+                Available for Bookings
+            </button>
+
+            <button
+                class="control-btn unavailable-btn"
+                onclick="setAvailability(false)">
+                Temporarily Unavailable
+            </button>
+
+            <button
+                class="control-btn emergency-btn"
+                onclick="setEmergencyAvailability(true)">
+                Accept Emergency Requests
+            </button>
+
+            <button
+                class="control-btn unavailable-btn"
+                onclick="setEmergencyAvailability(false)">
+                Stop Emergency Requests
+            </button>
+
+        </div>
+
+        <div id="controlMessage" class="message"></div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            My Service Bookings
+        </h2>
+
+        <div id="bookingsContainer">
+
+            <div class="empty">
+                Loading bookings...
+            </div>
+
         </div>
 
     </div>
 
+
+    <div class="section">
+
+        <h2>
+            Emergency Requests
+        </h2>
+
+        <div id="emergencyContainer">
+
+            <div class="empty">
+                Loading emergency requests...
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 
 <script>
 
+const userId =
+    localStorage.getItem("userId");
 
-/* =========================
-   LOAD BOOKINGS
-========================= */
+const userName =
+    localStorage.getItem("userName");
 
-async function loadBookings() {
+const userRole =
+    localStorage.getItem("userRole");
 
-    const container =
-        document.getElementById("bookings");
+
+if (!userId || userRole !== "PROVIDER") {
+
+    alert("Please login as a service provider.");
+
+    window.location.href =
+        "login.html";
+}
+
+
+document.getElementById("providerName")
+    .textContent = userName || "Provider";
+
+
+let providerId = null;
+
+
+/*
+ * Find the provider profile belonging
+ * to the currently logged-in provider.
+ */
+async function loadProvider() {
 
     try {
 
         const response =
-            await fetch("/api/bookings");
+            await fetch("/api/providers");
+
+        if (!response.ok) {
+            throw new Error("Unable to load providers");
+        }
+
+        const providers =
+            await response.json();
+
+
+        const provider =
+            providers.find(
+                p => Number(p.userId) === Number(userId)
+            );
+
+
+        if (!provider) {
+
+            alert(
+                "Provider profile not found."
+            );
+
+            return;
+        }
+
+
+        providerId =
+            provider.id;
+
+
+        loadBookings();
+        loadEmergencyRequests();
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "bookingsContainer"
+        ).innerHTML = `
+            <div class="empty">
+                Unable to load provider profile.
+            </div>
+        `;
+    }
+}
+
+
+async function loadBookings() {
+
+    const container =
+        document.getElementById(
+            "bookingsContainer"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/bookings/provider/${providerId}`
+            );
 
 
         if (!response.ok) {
-
-            throw new Error(
-                "Unable to load bookings"
-            );
-
+            throw new Error("Unable to load bookings");
         }
 
 
@@ -290,126 +448,123 @@ async function loadBookings() {
             await response.json();
 
 
-        if (bookings.length === 0) {
+        if (!bookings.length) {
 
-            container.innerHTML =
-                '<div class="empty">No bookings available.</div>';
+            container.innerHTML = `
+                <div class="empty">
+                    No bookings assigned to you yet.
+                </div>
+            `;
 
             return;
-
         }
 
 
-        container.innerHTML = "";
+        container.innerHTML =
+            bookings.map(
+                booking => `
 
+                <div class="card">
 
-        bookings.forEach(booking => {
+                    <h3>
+                        Booking #${booking.id}
+                    </h3>
 
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "booking-card";
-
-
-            card.innerHTML = `
-
-                <h3>
-                    Booking #${booking.id}
-                </h3>
-
-                <p>
-                    <strong>Customer ID:</strong>
-                    ${booking.customerId}
-                </p>
-
-                <p>
-                    <strong>Service ID:</strong>
-                    ${booking.serviceId}
-                </p>
-
-                <p>
-                    <strong>Date:</strong>
-                    ${booking.bookingDate}
-                </p>
-
-                <p>
-                    <strong>Time:</strong>
-                    ${booking.bookingTime ||
-                    "Not specified"}
-                </p>
-
-                <p>
-                    <strong>Address:</strong>
-                    ${booking.address ||
-                    "Not provided"}
-                </p>
-
-                <p class="status">
-                    <strong>Status:</strong>
-                    ${booking.status}
-                </p>
-
-                ${
-                    booking.status === "PENDING"
-                    ?
-                    `
-                    <div class="buttons">
-
-                        <button
-                            class="accept"
-                            onclick="updateStatus(
-                                ${booking.id},
-                                'ACCEPTED'
-                            )">
-
-                            Accept
-
-                        </button>
-
-
-                        <button
-                            class="reject"
-                            onclick="updateStatus(
-                                ${booking.id},
-                                'REJECTED'
-                            )">
-
-                            Reject
-
-                        </button>
-
+                    <div class="row">
+                        Customer ID:
+                        ${booking.customerId}
                     </div>
-                    `
-                    :
-                    ""
-                }
 
-            `;
+                    <div class="row">
+                        Service ID:
+                        ${booking.serviceId}
+                    </div>
+
+                    <div class="row">
+                        Date:
+                        ${booking.bookingDate}
+                    </div>
+
+                    <div class="row">
+                        Time:
+                        ${booking.bookingTime || "Not specified"}
+                    </div>
+
+                    <div class="row">
+                        Address:
+                        ${escapeHtml(
+                            booking.address || "Not provided"
+                        )}
+                    </div>
+
+                    <span class="status">
+                        ${booking.status}
+                    </span>
+
+                    ${booking.status === "PENDING" ? `
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn accept"
+                                onclick="updateBooking(
+                                    ${booking.id},
+                                    'ACCEPTED'
+                                )">
+                                Accept
+                            </button>
+
+                            <button
+                                class="action-btn reject"
+                                onclick="updateBooking(
+                                    ${booking.id},
+                                    'REJECTED'
+                                )">
+                                Reject
+                            </button>
+
+                        </div>
+
+                    ` : ""}
 
 
-            container.appendChild(card);
+                    ${booking.status === "ACCEPTED" ? `
 
-        });
+                        <div class="actions">
+
+                            <button
+                                class="action-btn complete"
+                                onclick="updateBooking(
+                                    ${booking.id},
+                                    'COMPLETED'
+                                )">
+                                Mark Completed
+                            </button>
+
+                        </div>
+
+                    ` : ""}
+
+                </div>
+
+            `
+            ).join("");
 
 
     } catch (error) {
 
-        container.innerHTML =
-            '<div class="empty">Unable to load bookings.</div>';
-
         console.error(error);
 
+        container.innerHTML = `
+            <div class="empty">
+                Unable to load bookings.
+            </div>
+        `;
     }
-
 }
 
 
-/* =========================
-   UPDATE BOOKING STATUS
-========================= */
-
-async function updateStatus(
+async function updateBooking(
     bookingId,
     status
 ) {
@@ -427,42 +582,368 @@ async function updateStatus(
 
         if (!response.ok) {
 
-            throw new Error(
-                "Unable to update booking"
+            const error =
+                await response.text();
+
+            alert(
+                error ||
+                "Unable to update booking."
             );
 
+            return;
         }
-
-
-        alert(
-            "Booking status updated to " + status
-        );
 
 
         loadBookings();
 
-
     } catch (error) {
-
-        alert(
-            "Unable to update booking status."
-        );
 
         console.error(error);
 
+        alert(
+            "Unable to connect to the server."
+        );
     }
-
 }
 
 
-/* =========================
-   START
-========================= */
+async function loadEmergencyRequests() {
 
-loadBookings();
+    const container =
+        document.getElementById(
+            "emergencyContainer"
+        );
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/emergency/provider/${providerId}`
+            );
+
+
+        if (!response.ok) {
+            throw new Error(
+                "Unable to load emergency requests"
+            );
+        }
+
+
+        const requests =
+            await response.json();
+
+
+        if (!requests.length) {
+
+            container.innerHTML = `
+                <div class="empty">
+                    No emergency requests assigned to you.
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            requests.map(
+                request => `
+
+                <div class="card">
+
+                    <h3>
+                        Emergency Request #${request.id}
+                    </h3>
+
+                    <div class="row">
+                        Service:
+                        ${escapeHtml(
+                            request.serviceCategory
+                        )}
+                    </div>
+
+                    <div class="row">
+                        Customer ID:
+                        ${request.customerId}
+                    </div>
+
+                    <div class="row">
+                        Description:
+                        ${escapeHtml(
+                            request.description ||
+                            "No description provided"
+                        )}
+                    </div>
+
+                    <div class="row">
+                        Address:
+                        ${escapeHtml(
+                            request.address ||
+                            "Not provided"
+                        )}
+                    </div>
+
+                    <span class="status">
+                        ${request.status}
+                    </span>
+
+                    ${request.status === "MATCHED" ? `
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn accept"
+                                onclick="updateEmergency(
+                                    ${request.id},
+                                    'ACCEPTED'
+                                )">
+                                Accept Emergency
+                            </button>
+
+                            <button
+                                class="action-btn reject"
+                                onclick="updateEmergency(
+                                    ${request.id},
+                                    'REJECTED'
+                                )">
+                                Reject
+                            </button>
+
+                        </div>
+
+                    ` : ""}
+
+
+                    ${request.status === "ACCEPTED" ? `
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn complete"
+                                onclick="updateEmergency(
+                                    ${request.id},
+                                    'COMPLETED'
+                                )">
+                                Mark Completed
+                            </button>
+
+                        </div>
+
+                    ` : ""}
+
+                </div>
+
+            `
+            ).join("");
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        container.innerHTML = `
+            <div class="empty">
+                Unable to load emergency requests.
+            </div>
+        `;
+    }
+}
+
+
+async function updateEmergency(
+    requestId,
+    status
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/emergency/${requestId}/status?status=${status}`,
+                {
+                    method: "PUT"
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const error =
+                await response.text();
+
+            alert(
+                error ||
+                "Unable to update emergency request."
+            );
+
+            return;
+        }
+
+
+        loadEmergencyRequests();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to connect to the server."
+        );
+    }
+}
+
+
+/*
+ * These two controls are displayed now.
+ * The backend update endpoint will be connected
+ * in the next backend step.
+ */
+
+async function setAvailability(value) {
+
+    if (!providerId) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/api/providers/${providerId}/availability?available=${value}`,
+            {
+                method: "PUT"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Update failed");
+        }
+
+        document.getElementById(
+            "controlMessage"
+        ).textContent =
+            value
+                ? "You are now available for bookings."
+                : "You are now unavailable for bookings.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "controlMessage"
+        ).textContent =
+            "Unable to update availability.";
+    }
+}
+
+
+async function setEmergencyAvailability(value) {
+
+    if (!providerId) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `/api/providers/${providerId}/emergency-availability?available=${value}`,
+            {
+                method: "PUT"
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Update failed");
+        }
+
+        document.getElementById(
+            "controlMessage"
+        ).textContent =
+            value
+                ? "You are now accepting emergency requests."
+                : "You are no longer accepting emergency requests.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        document.getElementById(
+            "controlMessage"
+        ).textContent =
+            "Unable to update emergency availability.";
+    }
+}
+
+
+function logout() {
+
+    localStorage.removeItem("userId");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userRole");
+
+    window.location.href =
+        "login.html";
+}
+
+async function deleteAccount() {
+
+    const confirmed = confirm(
+        "Are you sure you want to permanently delete your provider account?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        alert("Please login again.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/users/${userId}`, {
+            method: "DELETE"
+        });
+
+        const result = await response.text();
+
+        if (!response.ok) {
+            alert(result || "Unable to delete account.");
+            return;
+        }
+
+        alert("Your provider account has been deleted successfully.");
+
+        localStorage.clear();
+        window.location.href = "index.html";
+
+    } catch (error) {
+        console.error(error);
+        alert("Unable to connect to the server.");
+    }
+}
+
+function escapeHtml(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value == null ? "" : value;
+
+    return div.innerHTML;
+}
+
+
+loadProvider();
 
 </script>
 
 </body>
-
 </html>
+```
