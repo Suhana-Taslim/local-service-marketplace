@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Locale;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -26,6 +28,39 @@ public class UserService {
 
     public boolean usernameExists(String username) {
         return userRepository.existsByUsername(username);
+    }
+
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public String normalizeEmail(String email) {
+        return email == null ? null : email.trim().toLowerCase(Locale.ROOT);
+    }
+
+    public void prepareVerification(User user) {
+        user.setEmailVerified(false);
+        user.setVerificationToken(UUID.randomUUID().toString());
+    }
+
+    public String createPasswordResetToken(User user) {
+        String token = UUID.randomUUID().toString();
+        user.setPasswordResetToken(token);
+        user.setPasswordResetExpiresAt(LocalDateTime.now().plusMinutes(30));
+        userRepository.save(user);
+        return token;
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public Optional<User> findByVerificationToken(String token) {
+        return userRepository.findByVerificationToken(token);
+    }
+
+    public Optional<User> findByPasswordResetToken(String token) {
+        return userRepository.findByPasswordResetToken(token);
     }
 
     public String normalizeUsername(String username) {

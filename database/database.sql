@@ -5,7 +5,11 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     username VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    phone VARCHAR(15),
+    email VARCHAR(255) NOT NULL UNIQUE,
+    email_verified BOOLEAN NOT NULL DEFAULT FALSE,
+    verification_token VARCHAR(100) UNIQUE,
+    password_reset_token VARCHAR(100) UNIQUE,
+    password_reset_expires_at TIMESTAMP NULL,
     role VARCHAR(20) NOT NULL DEFAULT 'CUSTOMER',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

@@ -20,8 +20,20 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(length = 15)
-    private String phone;
+    @Column(nullable = false, unique = true, length = 255)
+    private String email;
+
+    @Column(name = "email_verified", nullable = false)
+    private boolean emailVerified;
+
+    @Column(name = "verification_token", unique = true, length = 100)
+    private String verificationToken;
+
+    @Column(name = "password_reset_token", unique = true, length = 100)
+    private String passwordResetToken;
+
+    @Column(name = "password_reset_expires_at")
+    private LocalDateTime passwordResetExpiresAt;
 
     @Column(nullable = false, length = 20)
     private String role = "CUSTOMER";
@@ -64,12 +76,44 @@ public class User {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean isEmailVerified() {
+        return emailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        this.emailVerified = emailVerified;
+    }
+
+    public String getVerificationToken() {
+        return verificationToken;
+    }
+
+    public void setVerificationToken(String verificationToken) {
+        this.verificationToken = verificationToken;
+    }
+
+    public String getPasswordResetToken() {
+        return passwordResetToken;
+    }
+
+    public void setPasswordResetToken(String passwordResetToken) {
+        this.passwordResetToken = passwordResetToken;
+    }
+
+    public LocalDateTime getPasswordResetExpiresAt() {
+        return passwordResetExpiresAt;
+    }
+
+    public void setPasswordResetExpiresAt(LocalDateTime passwordResetExpiresAt) {
+        this.passwordResetExpiresAt = passwordResetExpiresAt;
     }
 
     public String getRole() {

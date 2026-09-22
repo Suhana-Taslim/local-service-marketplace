@@ -6,8 +6,12 @@ import com.localservices.marketplace.service.ServiceProviderService;
 import com.localservices.marketplace.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,13 +22,19 @@ public class UserController {
 
     private final UserService userService;
     private final ServiceProviderService serviceProviderService;
+    private final JavaMailSender mailSender;
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     public UserController(
             UserService userService,
-            ServiceProviderService serviceProviderService) {
+            ServiceProviderService serviceProviderService,
+            JavaMailSender mailSender) {
 
         this.userService = userService;
         this.serviceProviderService = serviceProviderService;
+        this.mailSender = mailSender;
     }
 
     // Customer registration
@@ -32,10 +42,14 @@ public class UserController {
     public ResponseEntity<?> register(@RequestBody User user) {
 
         String username = userService.normalizeUsername(user.getUsername());
+        String email = userService.normalizeEmail(user.getEmail());
 
-        if (username == null || username.isBlank()) {
+        if (username == null || username.isBlank()
+            || email == null || email.isBlank()
+            || user.getName() == null || user.getName().isBlank()
+            || user.getPassword() == null || user.getPassword().length() < 8) {
             return ResponseEntity.badRequest()
-                .body("Username is required");
+            .body("Name, username, email, and a password of at least 8 characters are required");
         }
 
         if (!username.matches("[a-z0-9][a-z0-9._-]{2,29}")) {
@@ -44,21 +58,24 @@ public class UserController {
         }
 
         user.setUsername(username);
+        user.setEmail(email);
 
-        if (userService.usernameExists(username)) {
+        if (userService.usernameExists(username) || userService.emailExists(email)) {
             return ResponseEntity.badRequest()
-                .body("Username already taken");
+            .body("Username or email is already registered");
         }
 
         user.setRole("CUSTOMER");
+        userService.prepareVerification(user);
 
         User savedUser = userService.registerUser(user);
+        sendVerificationEmail(savedUser);
 
         Map<String, Object> response = new HashMap<>();
         response.put("id", savedUser.getId());
         response.put("name", savedUser.getName());
         response.put("username", savedUser.getUsername());
-        response.put("phone", savedUser.getPhone());
+        response.put("email", savedUser.getEmail());
         response.put("role", savedUser.getRole());
 
         return ResponseEntity.ok(response);
@@ -78,6 +95,11 @@ public class UserController {
         return userService.findByUsername(username)
                 .map(existingUser -> {
 
+                if (!existingUser.isEmailVerified()) {
+                return ResponseEntity.badRequest()
+                    .body("Please verify your email before logging in");
+                }
+
                     if (!existingUser.getPassword()
                             .equals(user.getPassword())) {
 
@@ -90,7 +112,7 @@ public class UserController {
                     response.put("id", existingUser.getId());
                     response.put("name", existingUser.getName());
                     response.put("username", existingUser.getUsername());
-                    response.put("phone", existingUser.getPhone());
+                    response.put("email", existingUser.getEmail());
                     response.put("role", existingUser.getRole());
 
                     return ResponseEntity.ok(response);
@@ -109,8 +131,8 @@ public class UserController {
         String name = value(data, "name");
         String username = userService.normalizeUsername(
             value(data, "username"));
+        String email = userService.normalizeEmail(value(data, "email"));
         String password = value(data, "password");
-        String phone = value(data, "phone");
         String businessName = value(data, "businessName");
         String category = value(data, "category");
         String description = value(data, "description");
@@ -126,6 +148,8 @@ public class UserController {
 
         if (username == null
             || username.isBlank()
+            || email == null
+            || email.isBlank()
             || password == null
             || password.isBlank()
             || name == null
@@ -144,9 +168,9 @@ public class UserController {
                 .body("Username must be 3-30 characters using letters, numbers, '.', '_' or '-'");
         }
 
-        if (userService.usernameExists(username)) {
+        if (userService.usernameExists(username) || userService.emailExists(email)) {
             return ResponseEntity.badRequest()
-                .body("Username already taken");
+            .body("Username or email is already registered");
         }
 
         // Create provider's user account
@@ -154,11 +178,13 @@ public class UserController {
 
         user.setName(name);
         user.setUsername(username);
+        user.setEmail(email);
         user.setPassword(password);
-        user.setPhone(phone);
         user.setRole("PROVIDER");
+        userService.prepareVerification(user);
 
         User savedUser = userService.registerUser(user);
+        sendVerificationEmail(savedUser);
 
         // Create provider profile
         ServiceProvider provider = new ServiceProvider();
@@ -195,7 +221,70 @@ public class UserController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<?> handleDuplicateUsername() {
-        return ResponseEntity.status(409).body("Username already taken");
+        return ResponseEntity.status(409).body("Username or email is already registered");
+    }
+
+    @GetMapping("/verify")
+    public ResponseEntity<?> verifyEmail(@RequestParam String token) {
+        return userService.findByVerificationToken(token)
+                .map(user -> {
+                    user.setEmailVerified(true);
+                    user.setVerificationToken(null);
+                    userService.registerUser(user);
+                    return ResponseEntity.ok("Email verified. You can now log in.");
+                })
+                .orElse(ResponseEntity.badRequest().body("Invalid verification link"));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, String> data) {
+        String username = userService.normalizeUsername(data.get("username"));
+        String email = userService.normalizeEmail(data.get("email"));
+
+        return userService.findByUsername(username)
+                .filter(user -> user.getEmail().equals(email) && user.isEmailVerified())
+                .map(user -> {
+                    String token = userService.createPasswordResetToken(user);
+                    sendPasswordResetEmail(user, token);
+                    return ResponseEntity.ok("If the details match, a password reset email has been sent.");
+                })
+                .orElse(ResponseEntity.ok("If the details match, a password reset email has been sent."));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> data) {
+        String token = data.get("token");
+        String password = data.get("password");
+        return userService.findByPasswordResetToken(token)
+                .filter(user -> user.getPasswordResetExpiresAt() != null
+                        && user.getPasswordResetExpiresAt().isAfter(LocalDateTime.now()))
+                .map(user -> {
+                    user.setPassword(password);
+                    user.setPasswordResetToken(null);
+                    user.setPasswordResetExpiresAt(null);
+                    userService.registerUser(user);
+                    return ResponseEntity.ok("Password reset successfully");
+                })
+                .orElse(ResponseEntity.badRequest().body("Invalid or expired reset link"));
+    }
+
+    private void sendVerificationEmail(User user) {
+        sendEmail(user.getEmail(), "Verify your Local Services account",
+                        "Verify your email: " + baseUrl + "/api/users/verify?token="
+                        + user.getVerificationToken());
+    }
+
+    private void sendPasswordResetEmail(User user, String token) {
+        sendEmail(user.getEmail(), "Reset your Local Services password",
+                "Reset your password: " + baseUrl + "/reset-password.html?token=" + token);
+    }
+
+    private void sendEmail(String recipient, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(recipient);
+        message.setSubject(subject);
+        message.setText(text);
+        mailSender.send(message);
     }
 
     private String value(Map<String, Object> data, String key) {
