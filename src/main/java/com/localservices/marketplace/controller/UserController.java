@@ -5,6 +5,7 @@ import com.localservices.marketplace.model.User;
 import com.localservices.marketplace.service.ServiceProviderService;
 import com.localservices.marketplace.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,14 +31,23 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody User user) {
 
-        if (user.getEmail() == null || user.getEmail().isBlank()) {
+        String username = userService.normalizeUsername(user.getUsername());
+
+        if (username == null || username.isBlank()) {
             return ResponseEntity.badRequest()
-                    .body("Email is required");
+                .body("Username is required");
         }
 
-        if (userService.emailExists(user.getEmail())) {
+        if (!username.matches("[a-z0-9][a-z0-9._-]{2,29}")) {
             return ResponseEntity.badRequest()
-                    .body("Email already registered");
+                .body("Username must be 3-30 characters using letters, numbers, '.', '_' or '-'");
+        }
+
+        user.setUsername(username);
+
+        if (userService.usernameExists(username)) {
+            return ResponseEntity.badRequest()
+                .body("Username already taken");
         }
 
         user.setRole("CUSTOMER");
@@ -47,7 +57,7 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
         response.put("id", savedUser.getId());
         response.put("name", savedUser.getName());
-        response.put("email", savedUser.getEmail());
+        response.put("username", savedUser.getUsername());
         response.put("phone", savedUser.getPhone());
         response.put("role", savedUser.getRole());
 
@@ -58,12 +68,14 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user) {
 
-        if (user.getEmail() == null || user.getPassword() == null) {
+        String username = userService.normalizeUsername(user.getUsername());
+
+        if (username == null || user.getPassword() == null) {
             return ResponseEntity.badRequest()
-                    .body("Email and password are required");
+                .body("Username and password are required");
         }
 
-        return userService.findByEmail(user.getEmail())
+        return userService.findByUsername(username)
                 .map(existingUser -> {
 
                     if (!existingUser.getPassword()
@@ -77,7 +89,7 @@ public class UserController {
 
                     response.put("id", existingUser.getId());
                     response.put("name", existingUser.getName());
-                    response.put("email", existingUser.getEmail());
+                    response.put("username", existingUser.getUsername());
                     response.put("phone", existingUser.getPhone());
                     response.put("role", existingUser.getRole());
 
@@ -94,14 +106,15 @@ public class UserController {
     public ResponseEntity<?> registerProvider(
             @RequestBody Map<String, Object> data) {
 
-        String name = String.valueOf(data.get("name"));
-        String email = String.valueOf(data.get("email"));
-        String password = String.valueOf(data.get("password"));
-        String phone = String.valueOf(data.get("phone"));
-        String businessName = String.valueOf(data.get("businessName"));
-        String category = String.valueOf(data.get("category"));
-        String description = String.valueOf(data.get("description"));
-        String location = String.valueOf(data.get("location"));
+        String name = value(data, "name");
+        String username = userService.normalizeUsername(
+            value(data, "username"));
+        String password = value(data, "password");
+        String phone = value(data, "phone");
+        String businessName = value(data, "businessName");
+        String category = value(data, "category");
+        String description = value(data, "description");
+        String location = value(data, "location");
 
         Integer experience = 0;
 
@@ -111,26 +124,36 @@ public class UserController {
             );
         }
 
-        if (email.isBlank()
-                || password.isBlank()
-                || name.isBlank()
-                || businessName.isBlank()
-                || category.isBlank()) {
+        if (username == null
+            || username.isBlank()
+            || password == null
+            || password.isBlank()
+            || name == null
+            || name.isBlank()
+            || businessName == null
+            || businessName.isBlank()
+            || category == null
+            || category.isBlank()) {
 
             return ResponseEntity.badRequest()
                     .body("Please fill all required fields");
         }
 
-        if (userService.emailExists(email)) {
+        if (!username.matches("[a-z0-9][a-z0-9._-]{2,29}")) {
             return ResponseEntity.badRequest()
-                    .body("Email already registered");
+                .body("Username must be 3-30 characters using letters, numbers, '.', '_' or '-'");
+        }
+
+        if (userService.usernameExists(username)) {
+            return ResponseEntity.badRequest()
+                .body("Username already taken");
         }
 
         // Create provider's user account
         User user = new User();
 
         user.setName(name);
-        user.setEmail(email);
+        user.setUsername(username);
         user.setPassword(password);
         user.setPhone(phone);
         user.setRole("PROVIDER");
@@ -160,6 +183,7 @@ public class UserController {
         response.put("userId", savedUser.getId());
         response.put("providerId", savedProvider.getId());
         response.put("name", savedUser.getName());
+        response.put("username", savedUser.getUsername());
         response.put("businessName",
                 savedProvider.getBusinessName());
         response.put("category",
@@ -167,6 +191,16 @@ public class UserController {
         response.put("role", savedUser.getRole());
 
         return ResponseEntity.ok(response);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<?> handleDuplicateUsername() {
+        return ResponseEntity.status(409).body("Username already taken");
+    }
+
+    private String value(Map<String, Object> data, String key) {
+        Object value = data.get(key);
+        return value == null ? null : String.valueOf(value).trim();
     }
 @DeleteMapping("/{userId}")
 public ResponseEntity<?> deleteAccount(@PathVariable Integer userId) {

@@ -5,6 +5,7 @@ import com.localservices.marketplace.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Locale;
 
 @Service
 public class UserService {
@@ -19,12 +20,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
-    public boolean emailExists(String email) {
-        return userRepository.existsByEmail(email);
+    public boolean usernameExists(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    public String normalizeUsername(String username) {
+        return username == null
+                ? null
+                : username.trim().toLowerCase(Locale.ROOT);
     }
 public void deleteUser(Integer userId) {
     if (!userRepository.existsById(userId)) {

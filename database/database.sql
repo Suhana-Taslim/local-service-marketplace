@@ -3,7 +3,7 @@ USE local_service_marketplace;
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    username VARCHAR(30) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     phone VARCHAR(15),
     role VARCHAR(20) NOT NULL DEFAULT 'CUSTOMER',
