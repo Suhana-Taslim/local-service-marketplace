@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +8,23 @@
     <title>Customer Dashboard | Local Services</title>
 
     <style>
+        :root {
+            --bg: #050807;
+            --bg-card: #0d1512;
+            --panel: #111c18;
+            --panel-soft: #edf7ea;
+            --text: #f4f9f5;
+            --text-dark: #101010;
+            --muted: #b7c7bb;
+            --accent: #b6ff4a;
+            --accent-strong: #88f306;
+            --accent-deep: #5fd300;
+            --danger: #ff5f5f;
+            --danger-strong: #e33535;
+            --shadow: rgba(0,0,0,0.32);
+            --border: rgba(182,255,74,0.35);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -17,23 +33,26 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f0e6;
-            color: #222;
+            background: radial-gradient(circle at top, #112018 0%, #050807 38%, #020302 100%);
+            color: var(--text);
         }
 
         header {
-            background: #21152b;
+            background: #040605;
             color: white;
             padding: 18px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 20px;
+            border-bottom: 1px solid var(--border);
         }
 
         .brand {
             font-size: 23px;
             font-weight: bold;
+            letter-spacing: 0.08em;
+            color: var(--accent);
         }
 
         .header-right {
@@ -43,21 +62,23 @@
         }
 
         .user-name {
-            color: #f4f0e6;
+            color: var(--text);
+            font-weight: 600;
         }
 
         .logout {
-            border: none;
+            border: 1px solid var(--accent);
             padding: 9px 15px;
-            border-radius: 8px;
-            background: #ffb38a;
-            color: #21152b;
+            border-radius: 999px;
+            background: var(--accent);
+            color: var(--text-dark);
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 0 15px rgba(182,255,74,0.26);
         }
 
         .logout:hover {
-            opacity: 0.9;
+            background: var(--accent-strong);
         }
 
         .container {
@@ -67,25 +88,26 @@
         }
 
         .welcome {
-            background: white;
+            background: linear-gradient(180deg, var(--panel), #0a130f);
+            border: 1px solid var(--border);
             border-radius: 18px;
             padding: 28px;
             margin-bottom: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 25px var(--shadow);
         }
 
         .welcome h1 {
-            color: #6c3bd1;
+            color: var(--accent);
             margin-bottom: 8px;
         }
 
         .welcome p {
-            color: #666;
+            color: var(--muted);
         }
 
         .section-title {
             margin-bottom: 15px;
-            color: #21152b;
+            color: white;
         }
 
         .categories {
@@ -96,20 +118,20 @@
         }
 
         .category-btn {
-            border: none;
+            border: 1px solid var(--border);
             padding: 11px 17px;
-            border-radius: 20px;
-            background: white;
-            color: #6c3bd1;
+            border-radius: 999px;
+            background: transparent;
+            color: white;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
         }
 
         .category-btn:hover,
         .category-btn.active {
-            background: #6c3bd1;
-            color: white;
+            background: var(--accent);
+            color: var(--text-dark);
+            box-shadow: 0 0 18px rgba(182,255,74,0.28);
         }
 
         .services-grid {
@@ -119,22 +141,24 @@
         }
 
         .service-card {
-            background: white;
+            background: linear-gradient(180deg, #ffffff, #edf7ea);
+            color: var(--text-dark);
             padding: 22px;
             border-radius: 17px;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.24);
             display: flex;
             flex-direction: column;
             min-height: 220px;
+            border: 1px solid rgba(0,0,0,0.06);
         }
 
         .service-card h3 {
-            color: #6c3bd1;
+            color: #101010;
             margin-bottom: 10px;
         }
 
         .service-card p {
-            color: #666;
+            color: #3f3f3f;
             line-height: 1.5;
             flex: 1;
         }
@@ -142,7 +166,7 @@
         .provider {
             margin-top: 12px;
             font-size: 14px;
-            color: #555;
+            color: #323232;
         }
 
         .book-btn {
@@ -150,14 +174,15 @@
             padding: 12px;
             border: none;
             border-radius: 10px;
-            background: #7c3aed;
-            color: white;
+            background: var(--accent);
+            color: var(--text-dark);
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 0 16px rgba(182,255,74,0.2);
         }
 
         .book-btn:hover {
-            background: #6426c5;
+            background: var(--accent-strong);
         }
 
         .cancel-btn {
@@ -165,7 +190,7 @@
             padding: 11px;
             border: none;
             border-radius: 10px;
-            background: #c62828;
+            background: var(--danger);
             color: white;
             font-weight: bold;
             cursor: pointer;
@@ -173,15 +198,16 @@
         }
 
         .cancel-btn:hover {
-            background: #a51f1f;
+            background: var(--danger-strong);
         }
 
         .empty {
-            background: white;
+            background: var(--panel);
+            color: var(--muted);
             padding: 30px;
             border-radius: 15px;
             text-align: center;
-            color: #666;
+            border: 1px solid var(--border);
         }
 
         .booking-section {
@@ -189,21 +215,22 @@
         }
 
         .booking-card {
-            background: white;
+            background: linear-gradient(180deg, #101d18, #0b120d);
             border-radius: 15px;
             padding: 20px;
             margin-bottom: 15px;
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 6px 18px var(--shadow);
+            border: 1px solid var(--border);
         }
 
         .booking-card h3 {
-            color: #6c3bd1;
+            color: var(--accent);
             margin-bottom: 10px;
         }
 
         .booking-row {
             margin: 6px 0;
-            color: #555;
+            color: var(--text);
         }
 
         .status {
@@ -213,12 +240,15 @@
             border-radius: 15px;
             font-size: 13px;
             font-weight: bold;
-            background: #eee;
+            background: rgba(182,255,74,0.12);
+            color: var(--accent);
+            border: 1px solid var(--border);
         }
 
         .emergency {
             margin-top: 40px;
-            background: #21152b;
+            background: linear-gradient(135deg, #0e1512, #040605);
+            border: 1px solid var(--border);
             color: white;
             padding: 28px;
             border-radius: 18px;
@@ -230,21 +260,23 @@
 
         .emergency h2 {
             margin-bottom: 8px;
+            color: var(--accent);
         }
 
         .emergency p {
-            color: #ddd;
+            color: var(--muted);
         }
 
         .emergency-btn {
             border: none;
             padding: 13px 20px;
             border-radius: 10px;
-            background: #ffb38a;
-            color: #21152b;
+            background: var(--accent);
+            color: var(--text-dark);
             font-weight: bold;
             cursor: pointer;
             white-space: nowrap;
+            box-shadow: 0 0 18px rgba(182,255,74,0.2);
         }
 
         .account-section {
@@ -253,16 +285,16 @@
         }
 
         .delete-btn {
-            border: 1px solid #c62828;
-            background: white;
-            color: #c62828;
+            border: 1px solid var(--danger);
+            background: transparent;
+            color: #ffb1b1;
             padding: 10px 16px;
-            border-radius: 9px;
+            border-radius: 999px;
             cursor: pointer;
         }
 
         .delete-btn:hover {
-            background: #c62828;
+            background: var(--danger);
             color: white;
         }
 
@@ -457,7 +489,6 @@
 </div>
 
 
-```html
 <script>
 
 const userId =
@@ -1164,8 +1195,5 @@ async function initializeDashboard() {
 initializeDashboard();
 
 </script>
-```
-
 </body>
 </html>
-```

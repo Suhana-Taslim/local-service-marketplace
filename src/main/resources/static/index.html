@@ -7,6 +7,22 @@
     <title>Local Service Marketplace</title>
 
     <style>
+        :root {
+            --bg: #050807;
+            --bg-soft: #0e1512;
+            --panel: #101b16;
+            --panel-2: #ffffff;
+            --panel-3: #171f1d;
+            --text: #f4f9f5;
+            --text-dark: #101010;
+            --muted: #aab8b1;
+            --accent: #b6ff4a;
+            --accent-strong: #8af507;
+            --accent-deep: #6ae000;
+            --border: rgba(182, 255, 74, 0.4);
+            --shadow: rgba(0, 0, 0, 0.35);
+        }
+
         * {
             box-sizing: border-box;
         }
@@ -14,76 +30,92 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f0e6;
-            color: #171717;
+            background: radial-gradient(circle at top, #171f1d 0%, var(--bg) 35%, #020403 100%);
+            color: var(--text);
         }
 
         /* HEADER */
         header {
-            background: #171717;
+            background: #040605;
             color: white;
             padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
         }
 
         header h1 {
             margin: 0;
-            color: #c6ff00;
+            color: var(--accent);
+            letter-spacing: 0.08em;
         }
 
         nav a {
             color: white;
             text-decoration: none;
             margin-left: 25px;
+            font-weight: 600;
         }
 
         nav a:hover {
-            color: #c6ff00;
+            color: var(--accent);
         }
 
         /* HERO SECTION */
         .hero {
             text-align: center;
             padding: 100px 20px;
+            background: linear-gradient(180deg, rgba(182,255,74,0.08), rgba(0,0,0,0));
         }
 
         .hero h2 {
             font-size: 45px;
             margin-bottom: 15px;
+            color: white;
         }
 
         .hero p {
             font-size: 20px;
-            color: #555;
+            color: var(--muted);
         }
 
-        .button {
+        .highlight-link {
             display: inline-block;
             margin-top: 25px;
-            padding: 14px 30px;
-            background: #c6ff00;
-            color: #171717;
+            color: var(--accent);
             text-decoration: none;
             font-weight: bold;
-            border-radius: 8px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 4px;
         }
 
-        .button:hover {
-            background: #aee600;
+        .highlight-link:hover {
+            color: white;
+            border-color: white;
         }
 
         /* SERVICES SECTION */
         .services {
-            padding: 50px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            padding: 0 50px;
             text-align: center;
+            transition: max-height 0.7s ease, opacity 0.35s ease, padding 0.7s ease;
+        }
+
+        .services.is-open {
+            max-height: 3000px;
+            opacity: 1;
+            padding: 50px;
         }
 
         .services h2 {
             font-size: 32px;
             margin-bottom: 30px;
+            color: white;
         }
 
         .cards {
@@ -96,35 +128,39 @@
 
         /* SERVICE CARD */
         .card {
-            background: white;
+            background: linear-gradient(180deg, #ffffff, #edf7ea);
+            color: var(--text-dark);
             padding: 30px 20px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px var(--shadow);
             transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(0,0,0,0.06);
         }
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 24px rgba(182,255,74,0.2);
         }
 
         .card h3 {
             margin-bottom: 10px;
             font-size: 20px;
+            color: #111111;
         }
 
         .card p {
-            color: #555;
+            color: #3d3d3d;
             line-height: 1.5;
         }
 
         /* FOOTER */
         footer {
-            background: #171717;
+            background: #040605;
             color: white;
             text-align: center;
             padding: 20px;
             margin-top: 50px;
+            border-top: 1px solid var(--border);
         }
 
         /* MOBILE */
@@ -153,7 +189,7 @@
                 font-size: 17px;
             }
 
-            .services {
+            .services.is-open {
                 padding: 40px 20px;
             }
         }
@@ -169,7 +205,7 @@
 
         <nav>
             <a href="/">Home</a>
-            <a href="#">Services</a>
+            <a href="#services" class="services-link" aria-controls="services" aria-expanded="false">Services</a>
             <a href="register.html">Create Account</a>
             <a href="login.html">Login</a>
             <a href="provider-register.html">Provider Register</a>
@@ -187,13 +223,13 @@
             Connect with trusted local service providers near you.
         </p>
 
-        <a href="#" class="button">Explore Services</a>
+        <a href="#services" class="highlight-link services-link" aria-controls="services" aria-expanded="false">Explore Services</a>
 
     </section>
 
 
     <!-- SERVICES SECTION -->
-    <section class="services">
+    <section class="services" id="services">
 
         <h2>Popular Services</h2>
 
@@ -261,5 +297,21 @@
 
     </footer>
 
+<script>
+    document.querySelectorAll(".services-link").forEach(link => {
+        link.addEventListener("click", event => {
+            event.preventDefault();
+
+            const services = document.getElementById("services");
+            services.classList.add("is-open");
+            document.querySelectorAll(".services-link").forEach(item => {
+                item.setAttribute("aria-expanded", "true");
+            });
+
+            history.replaceState(null, "", "#services");
+            services.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+    });
+</script>
 </body>
 </html>

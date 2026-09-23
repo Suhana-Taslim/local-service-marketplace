@@ -6,6 +6,17 @@
     <title>Login - Local Service Marketplace</title>
 
     <style>
+        :root {
+            --bg: #050807;
+            --panel: #0f1714;
+            --text: #f4f9f5;
+            --text-dark: #101010;
+            --muted: #b7c8bb;
+            --accent: #b6ff4a;
+            --accent-strong: #8af507;
+            --border: rgba(182,255,74,0.35);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,34 +25,44 @@
         }
 
         body {
-            background: #f4f0e6;
+            background: radial-gradient(circle at top, #112018 0%, #050807 38%, #020403 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #21152b;
+            color: var(--text);
         }
 
         .container {
             width: 90%;
             max-width: 420px;
-            background: white;
+            background: linear-gradient(180deg, #0f1714, #0a120f);
             padding: 35px;
             border-radius: 16px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+            border: 1px solid var(--border);
         }
 
         h1 {
             text-align: center;
             margin-bottom: 25px;
+            color: var(--accent);
         }
 
         input {
             width: 100%;
             padding: 12px;
             margin: 8px 0 15px;
-            border: 1px solid #ccc;
+            border: 1px solid rgba(182,255,74,0.3);
             border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            color: white;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(182,255,74,0.12);
         }
 
         button {
@@ -49,27 +70,29 @@
             padding: 12px;
             border: none;
             border-radius: 8px;
-            background: #6c63ff;
-            color: white;
+            background: var(--accent);
+            color: var(--text-dark);
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 0 18px rgba(182,255,74,0.2);
         }
 
         button:hover {
-            background: #5148d8;
+            background: var(--accent-strong);
         }
 
         .message {
             margin-top: 15px;
             text-align: center;
             font-weight: bold;
+            color: var(--accent);
         }
 
         .home {
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #6c63ff;
+            color: var(--accent);
             text-decoration: none;
         }
     </style>

@@ -7,6 +7,18 @@
     <title>Book Service | Local Services</title>
 
     <style>
+        :root {
+            --bg: #050807;
+            --panel: #0e1512;
+            --panel-soft: #edf7ea;
+            --text: #f4f9f5;
+            --text-dark: #101010;
+            --muted: #b7c7bb;
+            --accent: #b6ff4a;
+            --accent-strong: #89f206;
+            --border: rgba(182,255,74,0.35);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,20 +28,22 @@
         body {
             font-family: Arial, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #f4f0e6, #eee5ff);
+            background: radial-gradient(circle at top, #112018 0%, #050807 38%, #010202 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 25px;
+            color: var(--text);
         }
 
         .container {
             width: 100%;
             max-width: 650px;
-            background: white;
+            background: linear-gradient(180deg, #0f1714, #0a100d);
+            border: 1px solid var(--border);
             padding: 35px;
             border-radius: 22px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.32);
         }
 
         .header {
@@ -38,12 +52,12 @@
         }
 
         .header h1 {
-            color: #6c3bd1;
+            color: var(--accent);
             margin-bottom: 8px;
         }
 
         .header p {
-            color: #666;
+            color: var(--muted);
         }
 
         .field {
@@ -54,22 +68,25 @@
             display: block;
             font-weight: bold;
             margin-bottom: 7px;
-            color: #333;
+            color: white;
         }
 
         input,
         textarea {
             width: 100%;
             padding: 13px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(182,255,74,0.3);
             border-radius: 10px;
             font-size: 15px;
             outline: none;
+            background: rgba(255,255,255,0.03);
+            color: white;
         }
 
         input:focus,
         textarea:focus {
-            border-color: #7c3aed;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(182,255,74,0.12);
         }
 
         textarea {
@@ -78,22 +95,25 @@
         }
 
         .service-info {
-            background: #f4efff;
+            background: rgba(182,255,74,0.08);
+            border: 1px solid var(--border);
             border-radius: 12px;
             padding: 15px;
             margin-bottom: 22px;
+            color: white;
         }
 
         .service-info strong {
-            color: #6c3bd1;
+            color: var(--accent);
         }
 
         .payment-info {
-            background: #f5f5f5;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
             padding: 14px;
             border-radius: 10px;
             margin-bottom: 20px;
-            color: #444;
+            color: white;
         }
 
         button {
@@ -101,21 +121,23 @@
             padding: 15px;
             border: none;
             border-radius: 12px;
-            background: #7c3aed;
-            color: white;
+            background: var(--accent);
+            color: var(--text-dark);
             font-size: 17px;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 0 18px rgba(182,255,74,0.22);
         }
 
         button:hover {
-            background: #6426c5;
+            background: var(--accent-strong);
         }
 
         .message {
             text-align: center;
             margin-top: 18px;
             font-weight: bold;
+            color: var(--accent);
         }
 
         .back {
@@ -124,7 +146,7 @@
         }
 
         .back a {
-            color: #7c3aed;
+            color: var(--accent);
             text-decoration: none;
             font-weight: bold;
         }

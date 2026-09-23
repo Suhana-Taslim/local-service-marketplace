@@ -7,6 +7,17 @@
     <title>Provider Registration | Local Services</title>
 
     <style>
+        :root {
+            --bg: #050807;
+            --panel: #0f1714;
+            --text: #f4f9f5;
+            --text-dark: #101010;
+            --muted: #b7c8bb;
+            --accent: #b6ff4a;
+            --accent-strong: #8af507;
+            --border: rgba(182,255,74,0.35);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,20 +27,22 @@
         body {
             font-family: Arial, sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, #f4f0e6, #ede4ff);
+            background: radial-gradient(circle at top, #112018 0%, #050807 38%, #020403 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 30px;
+            color: var(--text);
         }
 
         .container {
             width: 100%;
             max-width: 850px;
-            background: white;
+            background: linear-gradient(180deg, #0f1714, #0a120f);
+            border: 1px solid var(--border);
             border-radius: 22px;
             padding: 35px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.32);
         }
 
         .header {
@@ -38,12 +51,12 @@
         }
 
         .header h1 {
-            color: #6c3bd1;
+            color: var(--accent);
             margin-bottom: 8px;
         }
 
         .header p {
-            color: #666;
+            color: var(--muted);
         }
 
         .form-grid {
@@ -64,23 +77,26 @@
         label {
             font-weight: bold;
             margin-bottom: 7px;
-            color: #333;
+            color: white;
         }
 
         input,
         select,
         textarea {
             padding: 13px;
-            border: 1px solid #ddd;
+            border: 1px solid rgba(182,255,74,0.3);
             border-radius: 10px;
             font-size: 15px;
             outline: none;
+            background: rgba(255,255,255,0.02);
+            color: white;
         }
 
         input:focus,
         select:focus,
         textarea:focus {
-            border-color: #7c3aed;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(182,255,74,0.12);
         }
 
         textarea {
@@ -94,21 +110,23 @@
             padding: 15px;
             border: none;
             border-radius: 12px;
-            background: #7c3aed;
-            color: white;
+            background: var(--accent);
+            color: var(--text-dark);
             font-size: 17px;
             font-weight: bold;
             cursor: pointer;
+            box-shadow: 0 0 18px rgba(182,255,74,0.2);
         }
 
         button:hover {
-            background: #6426c5;
+            background: var(--accent-strong);
         }
 
         .message {
             margin-top: 18px;
             text-align: center;
             font-weight: bold;
+            color: var(--accent);
         }
 
         .login-link {
@@ -117,7 +135,7 @@
         }
 
         .login-link a {
-            color: #7c3aed;
+            color: var(--accent);
             font-weight: bold;
             text-decoration: none;
         }
